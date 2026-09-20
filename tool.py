@@ -24,17 +24,70 @@ def target_check(df,target):
     except:
         print('Invalid target variable.')
 
+def hitl_del(df,result1):
+    print("Columns that require action :")
+    if len(result1["columns"])== 0:
+        print("No such column.")
+        return df
+    else:
+        for i in result1["columns"]:
+            print("Column :",i["column"])
+            print("Reason :",i["reason"])
+            act=input("Do you want to remove the column (y/n) :")
+            if act == "y":
+                df=df.drop[i["column"]]
+                print("Removed")
+                return df
+            elif act == "n":
+                print("No removing.")
+                return df
+
+def colume_change(df,result2):
+    print("Colum for which the datatype should be changed :")
+    if len(result2["columns"])==0:
+        print("No such column")
+        return df
+    else:
+        for i in result2["columns"]:
+            print("Column Name :",i["column"])
+            print("Detected data type :",i["detected_type"])
+            print("Suggested data type :",i["suggested_dtype"])
+            act=input("Do you want to change to suggested data type (y/n) :")
+            if act=="y":
+                df[i["column"]]=df[i["column"]].astype(i["suggested_dtype"])
+                print("Changed the data type.")
+            elif act == "n":
+                print("no change in data type done.")
+
 def eda(df):
+    # Total number of columns
     total_columns = df.shape[1]
-    print("=======================================================================")
     print("Number of columns:", total_columns)
 
-    categorical_columns = df.select_dtypes(include=["object", "category","bool"]).shape[1]
-    print("Number of categorical columns:", categorical_columns)
+    categorical_columns = df.select_dtypes(
+        include=["object", "category", "bool"]
+        ).columns.tolist()
 
-    numerical_columns = df.select_dtypes(include="number").shape[1]
-    print("Number of numerical columns:", numerical_columns)
+    numerical_columns = df.select_dtypes(
+        include=["number"]
+        ).columns.tolist()
 
+    datetime_columns = df.select_dtypes(
+        include=["datetime", "datetimetz"]
+        ).columns.tolist()
+
+    print("Number of categorical columns:", len(categorical_columns))
+    print("Number of numerical columns:", len(numerical_columns))
+    print("Number of date/datetime columns:", len(datetime_columns))
+
+    print("\nCategorical columns:")
+    print(categorical_columns)
+
+    print("\nNumerical columns:")
+    print(numerical_columns)
+
+    print("\nDate/Datetime columns:")
+    print(datetime_columns)
     columns = df.columns.tolist()
     null_status = False
     n_t = []
