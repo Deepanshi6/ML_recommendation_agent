@@ -24,26 +24,45 @@ def target_check(df,target):
     except:
         print('Invalid target variable.')
 
-def hitl_del(df,result1):
+def hitl_del(df, result1):
+
     print("Columns that require action :")
-    if len(result1["columns"])== 0:
+
+    columns = result1.get("columns", [])
+
+    if not columns:
         print("No such column.")
         return df
-    else:
-        for i in result1["columns"]:
-            print("Column :",i["column"])
-            print("Reason :",i["reason"])
-            act=input("Do you want to remove the column (y/n) :")
-            if act == "y":
-                df=df.drop[i["column"]]
-                print("Removed")
-                return df
-            elif act == "n":
-                print("No removing.")
-                return df
 
-def colume_change(df,result2):
-    print("Colum for which the datatype should be changed :")
+    for item in columns:
+
+        column = item["column"]
+        reason = item["reason"]
+
+        print("\nColumn :", column)
+        print("Reason :", reason)
+
+        while True:
+            act = input("Do you want to remove the column (y/n) : ").strip().lower()
+
+            if act == "y":
+                df = df.drop(columns=[column])
+                print(f"Removed: {column}")
+                break
+
+            elif act == "n":
+                print(f"Kept: {column}")
+                break
+
+            else:
+                print("Please enter y or n.")
+
+    return df
+
+
+def hitl_colume_change(df,result2):
+    print("Column for which the datatype should be changed :")
+
     if len(result2["columns"])==0:
         print("No such column")
         return df
@@ -52,12 +71,18 @@ def colume_change(df,result2):
             print("Column Name :",i["column"])
             print("Detected data type :",i["detected_type"])
             print("Suggested data type :",i["suggested_dtype"])
-            act=input("Do you want to change to suggested data type (y/n) :")
-            if act=="y":
-                df[i["column"]]=df[i["column"]].astype(i["suggested_dtype"])
-                print("Changed the data type.")
-            elif act == "n":
-                print("no change in data type done.")
+
+            while True:
+
+                act=input("Do you want to change to suggested data type (y/n) :")
+                if act=="y":
+                    df[i["column"]]=df[i["column"]].astype(i["suggested_dtype"])
+                    print("Changed the data type.")
+                    break
+                elif act == "n":
+                    print("no change in data type done.")
+                    break
+        return df
 
 def eda(df):
     # Total number of columns
@@ -98,7 +123,7 @@ def eda(df):
         column = df[column_name]
         total_values = len(column)
         null_values = column.isna().sum()
-        empty_values = column.fillna("").astype(str).str.strip().eq("").sum()
+        empty_values = column.astype("string").str.strip().eq("").fillna(False).sum()
 
         if null_values + empty_values >= total_values / 10:
             null_status = True
@@ -147,3 +172,11 @@ def hitl_null(df,n_t):
             print("Column considered for further processing.")
     return df,remain_col
 
+TOOLS={
+    "input_file":input_file,
+    "target_check":target_check,
+    "hitl_del":hitl_del,
+    "hitl_colume_change":hitl_colume_change,
+    "eda":eda,
+    "hitl_null":hitl_null
+}
