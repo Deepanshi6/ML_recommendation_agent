@@ -61,10 +61,7 @@ The architecture integrates developer-defined tools, LLM-driven reasoning, dynam
 
 1. Clone the repository and install required dependencies.
 2. Prepare your CSV dataset and identify your target column.
-3. Run the orchestration agent:
-   ```bash
-   python run_agent.py --input path/to/dataset.csv --target target_column_name
-   ```
+3. Run the orchestration agent
 4. Respond to the interactive prompts (HITL) regarding column deletion, data type adjustments, and missing value handling.
 5. Receive the final EDA summary and recommended machine learning algorithm.
 
@@ -76,3 +73,14 @@ The architecture integrates developer-defined tools, LLM-driven reasoning, dynam
 * **Automated Data Cleaning & Type Suggestion**: Uses LLM reasoning to detect irrelevant columns and correct misclassified data types.
 * **Dynamic Pipeline Execution**: Re-evaluates data via updated EDA steps based on user choices.
 * **Tailored Algorithm Recommendation**: Matches data attributes and target variables with optimal ML algorithms.
+
+---
+
+## Future Roadmap
+
+In upcoming iterations, the Machine Learning Agent will expand beyond single-agent recommendations into a robust **Multi-Agentic System**:
+
+* **Unsupervised Learning Recommendations**: Extend recommendation capabilities to clustering, dimensionality reduction, and anomaly detection for unlabeled datasets.
+* **Automated Model Training & Evaluation**: Move from recommending algorithms to automatically training candidate models directly on the processed data.
+* **Model Benchmarking & Comparison**: Implement automated cross-validation, hyperparameter tuning, and comprehensive metric comparisons (Accuracy, F1-Score, RMSE, ROC-AUC) to output production-ready models.
+* **Multi-Agent Orchestration**: Transition to specialized sub-agents (e.g., Data Prep Agent, Feature Engineering Agent, Training Agent, Evaluation Agent) working collaboratively to execute full ML pipelines.
